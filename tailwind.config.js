@@ -4,7 +4,7 @@
  * Plugins
  * - TailwindCSS Transitions / https://github.com/benface/tailwindcss-transitions
  */
-import { colors } from 'tailwindcss/colors'
+const { colors } = require('tailwindcss/defaultTheme')
 // const fontBaseSize = 14
 
 /**
@@ -154,21 +154,26 @@ module.exports = {
           94: '#949494',
         },
         blue: {
+          ...colors.blue,
           '00': '#003DD0',
           17: '#178EFF',
         },
         purple: {
+          ...colors.purple,
           77: '#777dff',
           86: '#860DFF',
         },
         orange: {
+          ...colors.orange,
           ff: '#FFCAC1',
           fc: '#FCB3A7',
         },
         red: {
+          ...colors.red,
           fe: '#FE0000',
         },
         pink: {
+          ...colors.pink,
           ff: '#FF9EE3',
           f0: '#f0357c',
         },
