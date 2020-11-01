@@ -38,6 +38,10 @@ const path = require('path')
 // console.log('Client API is running on port', port, 'and protocol', protocol)
 
 const nextConfig = {
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
   distDir: 'build',
   // serverRuntimeConfig: { // Will only be available on the server side
   //   wordpressApiUrl: process.env.WORDPRESS_API_URL
@@ -82,9 +86,7 @@ const nextConfig = {
     }
     return config
   },
-  env: {
-    DEFAULT_LANG: 'en-us',
-  },
+  env: {},
 }
 
 module.exports = withPlugins(
