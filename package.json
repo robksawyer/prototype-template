@@ -12,29 +12,28 @@
     "page": "foldit -p "
   },
   "dependencies": {
+    "babel-plugin-inline-react-svg": "^1.1.2",
     "gsap": "^3.5.1",
-    "next": "10.0.0",
-    "react": "17.0.1",
-    "react-dom": "17.0.1",
+    "next": "^10.0.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-spring": "^8.0.27",
     "react-use-gesture": "^8.0.0",
-    "tailwindcss": "^1.9.6"
+    "tailwindcss": "^1.9.6",
+    "use-mobile-detect-hook": "^1.0.3"
   },
   "devDependencies": {
     "@layerframers/scaffolding-nextjs": "^1.1.6",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.1.0",
+    "babel-polyfill": "^6.26.0",
     "eslint": "^7.12.1",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-loader": "^4.0.2",
-    "image-trace-loader": "^1.0.2",
-    "imagemin-mozjpeg": "^8.0.0",
-    "imagemin-optipng": "^7.1.0",
-    "imagemin-pngquant": "^8.0.0",
-    "imagemin-svgo": "^7.0.0",
+    "ignore-loader": "^0.1.2",
     "next-compose-plugins": "^2.2.0",
     "next-fonts": "^1.4.0",
-    "next-images": "^1.6.2",
-    "next-optimized-images": "^2.6.2",
     "next-react-svg": "^1.1.2",
     "next-transpile-modules": "^4.1.0"
   }

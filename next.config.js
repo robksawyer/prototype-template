@@ -22,9 +22,7 @@
  * excludeFile: ... (see below)
  */
 const withPlugins = require('next-compose-plugins')
-const withImages = require('next-images')
 const withFonts = require('next-fonts')
-const optimizedImages = require('next-optimized-images')
 const withTM = require('next-transpile-modules')(['drei', 'three'])
 // const withSass = require('@zeit/next-sass')
 // const withCSS = require('@zeit/next-css')
@@ -92,8 +90,6 @@ const nextConfig = {
 module.exports = withPlugins(
   [
     [withTM, {}],
-    [withImages, {}],
-    [optimizedImages, {}],
     [withFonts, {}],
   ],
   nextConfig
