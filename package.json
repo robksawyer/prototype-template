@@ -21,6 +21,7 @@
     "react-three-fiber": "^5.1.4",
     "react-use-gesture": "^8.0.0",
     "tailwindcss": "^1.9.6",
+    "three": "^0.122.0",
     "use-mobile-detect-hook": "^1.0.3",
     "use-tweaks": "^0.1.0"
   },
