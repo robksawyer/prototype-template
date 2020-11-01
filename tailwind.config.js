@@ -74,6 +74,7 @@ module.exports = {
       150: '150px',
       175: '175px',
       full: '100%',
+      screen: '100vh',
     },
     textIndent: {
       1: '0.25rem',
@@ -138,11 +139,9 @@ module.exports = {
         accent2: '#2EC4B6',
         accent3: '#E71D36',
         accent4: '#FF9F1C',
-        black: {
-          '00': '#000000',
-          11: '#111111',
-          19: '#191515',
-        },
+        transparent: 'transparent',
+        black: '#000',
+        white: '#fff',
         gray: {
           f3: '#f3f3f3',
           f4: '#f4f4f4',
@@ -176,6 +175,16 @@ module.exports = {
       },
       fontFamily: {
         sans: ['poppins', 'Helvetica', 'Arial', 'sans-serif'],
+        menlo: [
+          'Menlo',
+          'Monaco',
+          'Lucida Console',
+          'Liberation Mono',
+          'DejaVu Sans Mono',
+          'Bitstream Vera Sans Mono',
+          'Courier New',
+          'monospace',
+        ],
       },
       borderWidth: {
         default: '1px',
@@ -302,12 +311,12 @@ module.exports = {
       //   },
     },
   },
-  //   variants: {
-  //     backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
-  //     fontStyle: ['responsive', 'focus', 'hover', 'active'],
-  //     textColor: ['responsive', 'focus', 'hover', 'active'],
-  //     borderColor: ['responsive', 'focus', 'hover', 'active'],
-  //     willChange: ['responsive'],
-  //   },
+  variants: {
+    backgroundColor: ['responsive', 'hover', 'focus', 'active', 'group-hover'],
+    fontStyle: ['responsive', 'focus', 'hover', 'active'],
+    textColor: ['responsive', 'focus', 'hover', 'active'],
+    borderColor: ['responsive', 'focus', 'hover', 'active'],
+    willChange: ['responsive'],
+  },
   plugins: [],
 }
