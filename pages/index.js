@@ -13,9 +13,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main
-        className={`${styles.main} flex flex-1 flex-col justify-center align-center`}
-      >
+      <main className={`${styles.main} flex flex-grow flex-col`}>
         <MainScene />
       </main>
 

@@ -23,7 +23,11 @@
  */
 const withPlugins = require('next-compose-plugins')
 const withFonts = require('next-fonts')
-const withTM = require('next-transpile-modules')(['drei', 'three'])
+const withTM = require('next-transpile-modules')([
+  '@react-three',
+  'postprocessing',
+  'three',
+])
 // const withSass = require('@zeit/next-sass')
 // const withCSS = require('@zeit/next-css')
 // const withWorkers = require('@zeit/next-workers')
