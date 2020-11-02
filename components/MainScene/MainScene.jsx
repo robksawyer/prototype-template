@@ -30,7 +30,7 @@ import {
   SpotLightHelper,
   PointLightHelper,
 } from 'three'
-import { useHelper } from '@react-three/drei'
+import { useHelper, OrbitControls} from '@react-three/drei'
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper'
 import { FaceNormalsHelper } from 'three/examples/jsm/helpers/FaceNormalsHelper'
@@ -118,6 +118,7 @@ const MainScene = (props) => {
       <fog attach="fog" args={['floralwhite', 0, 20]} />
       <Scene />
       {/* <Effects /> */}
+      <OrbitControls />
     </Tag>
   )
 }
