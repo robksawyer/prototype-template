@@ -12,16 +12,19 @@
     "page": "foldit -p "
   },
   "dependencies": {
-    "drei": "^1.5.7",
+    "@react-three/drei": "^2.2.3",
+    "@react-three/postprocessing": "^1.4.1",
     "gsap": "^3.5.1",
     "next": "^10.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-intersection-observer": "^8.29.1",
     "react-spring": "^8.0.27",
     "react-three-fiber": "^5.1.4",
     "react-use-gesture": "^8.0.0",
     "tailwindcss": "^1.9.6",
     "three": "^0.122.0",
+    "use-error-boundary": "^2.0.4",
     "use-mobile-detect-hook": "^1.0.3",
     "use-tweaks": "^0.1.0"
   },

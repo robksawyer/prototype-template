@@ -210,6 +210,8 @@ module.exports = {
         widest: '.25em',
       },
       height: {
+        screen: '100vh',
+        full: '100%',
         0: '0',
         5: '5px',
         10: '10px',
