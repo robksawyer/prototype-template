@@ -3,9 +3,9 @@
  */
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
+import useErrorBoundary from 'use-error-boundary'
 
 import { useTweaks } from 'use-tweaks'
-import useErrorBoundary from 'use-error-boundary'
 import { useInView } from 'react-intersection-observer'
 import useMobileDetect from 'use-mobile-detect-hook'
 import {
@@ -30,7 +30,7 @@ import {
   SpotLightHelper,
   PointLightHelper,
 } from 'three'
-import { useHelper, OrbitControls} from '@react-three/drei'
+import { useHelper, OrbitControls } from '@react-three/drei'
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper'
 import { FaceNormalsHelper } from 'three/examples/jsm/helpers/FaceNormalsHelper'
@@ -101,25 +101,29 @@ const Scene = () => {
 const MainScene = (props) => {
   const { tagName: Tag, className, variant, children } = props
 
+  const { ErrorBoundary, didCatch, error } = useErrorBoundary()
+
   return (
-    <Tag
-      colorManagement
-      shadowMap
-      camera={{ position: [-5, 5, 5] }}
-      className={`${styles.main_scene} ${
-        styles[`main_scene__${variant}`]
-      } ${className}`}
-      style={{
-        width: '100vw',
-        height: 'calc(100vh - 50px)',
-        background: 'floralwhite',
-      }}
-    >
-      <fog attach="fog" args={['floralwhite', 0, 20]} />
-      <Scene />
-      {/* <Effects /> */}
-      <OrbitControls />
-    </Tag>
+    <ErrorBoundary>
+      <Tag
+        colorManagement
+        shadowMap
+        camera={{ position: [-5, 5, 5] }}
+        className={`${styles.main_scene} ${
+          styles[`main_scene__${variant}`]
+        } ${className}`}
+        style={{
+          width: '100vw',
+          height: 'calc(100vh - 50px)',
+          background: 'floralwhite',
+        }}
+      >
+        <fog attach="fog" args={['floralwhite', 0, 20]} />
+        <Scene />
+        {/* <Effects /> */}
+        <OrbitControls />
+      </Tag>
+    </ErrorBoundary>
   )
 }
 
