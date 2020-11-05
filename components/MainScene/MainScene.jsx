@@ -1,7 +1,7 @@
 /**
  * @file MainScene.js
  */
-import React, { useRef, useEffect } from 'react'
+import React, { Suspense, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import useErrorBoundary from 'use-error-boundary'
 
@@ -37,6 +37,8 @@ import { FaceNormalsHelper } from 'three/examples/jsm/helpers/FaceNormalsHelper'
 import { gsap } from 'gsap'
 
 import styles from './MainScene.module.css'
+
+import Loader from '../Loader'
 
 // Texture loading examples
 // const envMap = useCubeTexture(
@@ -146,7 +148,10 @@ const MainScene = (props) => {
         }}
       >
         <fog attach="fog" args={['floralwhite', 0, 20]} />
-        <Scene />
+        <Suspense fallback={<Loader />}>
+          <Scene />
+        </Suspense>
+
         {/* <Effects /> */}
         <OrbitControls />
       </Tag>
