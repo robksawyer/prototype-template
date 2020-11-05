@@ -14,6 +14,7 @@
   "dependencies": {
     "@react-three/drei": "^2.2.3",
     "@react-three/postprocessing": "^1.4.1",
+    "d3-ease": "^2.0.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
     "gsap": "^3.5.1",
