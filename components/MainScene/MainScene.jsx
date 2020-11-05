@@ -38,6 +38,33 @@ import { gsap } from 'gsap'
 
 import styles from './MainScene.module.css'
 
+// Texture loading examples
+// const envMap = useCubeTexture(
+//   [
+//     'sky_px.png',
+//     'sky_nx.png',
+//     'sky_py.png',
+//     'sky_ny.png',
+//     'sky_pz.png',
+//     'sky_nz.png',
+//   ],
+//   { path: '/3d/sky0/' }
+// )
+
+// const bumpMap = useLoader(TextureLoader, '/3d/bumps/fabric-bump.png')
+// bumpMap.wrapS = bumpMap.wrapT = RepeatWrapping
+// bumpMap.repeat.set(1, 1)
+//
+// Application
+// <meshStandardMaterial
+//    envMap={envMap}
+//    attach="material"
+//    roughness={0}
+//    metalness={0.9}
+//    bumpMap={bumpMap}
+//    color="#3083DC"
+//  />
+
 // Effects for the main scene
 const Effects = () => {
   return <EffectComposer></EffectComposer>
