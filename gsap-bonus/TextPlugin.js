@@ -24,6 +24,24 @@
 
 	  return result;
 	}
+	function splitInnerHTML(element, delimiter, trim) {
+	  var node = element.firstChild,
+	      result = [];
+
+	  while (node) {
+	    if (node.nodeType === 3) {
+	      result.push.apply(result, emojiSafeSplit((node.nodeValue + "").replace(/^\n+/g, "").replace(/\s+/g, " "), delimiter, trim));
+	    } else if ((node.nodeName + "").toLowerCase() === "br") {
+	      result[result.length - 1] += "<br>";
+	    } else {
+	      result.push(node.outerHTML);
+	    }
+
+	    node = node.nextSibling;
+	  }
+
+	  return result;
+	}
 	function emojiSafeSplit(text, delimiter, trim) {
 	  text += "";
 
@@ -58,7 +76,7 @@
 	}
 
 	/*!
-	 * ScrambleTextPlugin 3.5.1
+	 * TextPlugin 3.5.1
 	 * https://greensock.com
 	 *
 	 * @license Copyright 2008-2020, GreenSock. All rights reserved.
@@ -67,242 +85,161 @@
 	 * @author: Jack Doyle, jack@greensock.com
 	*/
 
-	var CharSet = function () {
-	  function CharSet(chars) {
-	    this.chars = emojiSafeSplit(chars);
-	    this.sets = [];
-	    this.length = 50;
-
-	    for (var i = 0; i < 20; i++) {
-	      this.sets[i] = _scrambleText(80, this.chars);
-	    }
-	  }
-
-	  var _proto = CharSet.prototype;
-
-	  _proto.grow = function grow(newLength) {
-	    for (var i = 0; i < 20; i++) {
-	      this.sets[i] += _scrambleText(newLength - this.length, this.chars);
-	    }
-
-	    this.length = newLength;
-	  };
-
-	  return CharSet;
-	}();
-
 	var gsap,
-	    _coreInitted,
+	    _tempDiv,
 	    _getGSAP = function _getGSAP() {
 	  return gsap || typeof window !== "undefined" && (gsap = window.gsap) && gsap.registerPlugin && gsap;
-	},
-	    _bonusValidated = 1,
-	    _spacesExp = /\s+/g,
-	    _scrambleText = function _scrambleText(length, chars) {
-	  var l = chars.length,
-	      s = "";
-
-	  while (--length > -1) {
-	    s += chars[~~(Math.random() * l)];
-	  }
-
-	  return s;
-	},
-	    _upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-	    _lower = _upper.toLowerCase(),
-	    _charsLookup = {
-	  upperCase: new CharSet(_upper),
-	  lowerCase: new CharSet(_lower),
-	  upperAndLowerCase: new CharSet(_upper + _lower)
-	},
-	    _initCore = function _initCore() {
-	  _coreInitted = gsap = _getGSAP();
 	};
 
-	var ScrambleTextPlugin = {
+	var TextPlugin = {
 	  version: "3.5.1",
-	  name: "scrambleText",
-	  register: function register(core, Plugin, propTween) {
-	    gsap = core;
+	  name: "text",
+	  init: function init(target, value, tween) {
+	    var i = target.nodeName.toUpperCase(),
+	        data = this,
+	        _short,
+	        text,
+	        original,
+	        j,
+	        condensedText,
+	        condensedOriginal,
+	        aggregate,
+	        s;
 
-	    _initCore();
-	  },
-	  init: function init(target, value, tween, index, targets) {
-	    if (!_coreInitted) {
-	      _initCore();
+	    data.svg = target.getBBox && (i === "TEXT" || i === "TSPAN");
+
+	    if (!("innerHTML" in target) && !data.svg) {
+	      return false;
 	    }
 
-	    this.prop = "innerHTML" in target ? "innerHTML" : "textContent" in target ? "textContent" : 0;
-
-	    if (!this.prop) {
-	      return;
-	    }
-
-	    this.target = target;
+	    data.target = target;
 
 	    if (typeof value !== "object") {
 	      value = {
-	        text: value
+	        value: value
 	      };
 	    }
 
-	    var text = value.text || value.value,
-	        trim = value.trim !== false,
-	        data = this,
-	        delim,
-	        maxLength,
-	        charset,
-	        splitByChars;
-	    data.delimiter = delim = value.delimiter || "";
-	    data.original = emojiSafeSplit(getText(target).replace(_spacesExp, " ").split("&nbsp;").join(""), delim, trim);
-
-	    if (text === "{original}" || text === true || text == null) {
-	      text = data.original.join(delim);
+	    if (!("value" in value)) {
+	      data.text = data.original = [""];
+	      return;
 	    }
 
-	    data.text = emojiSafeSplit((text || "").replace(_spacesExp, " "), delim, trim);
+	    data.delimiter = value.delimiter || "";
+	    original = splitInnerHTML(target, data.delimiter);
+
+	    if (!_tempDiv) {
+	      _tempDiv = document.createElement("div");
+	    }
+
+	    _tempDiv.innerHTML = value.value;
+	    text = splitInnerHTML(_tempDiv, data.delimiter);
+	    data.from = tween._from;
+
+	    if (data.from) {
+	      i = original;
+	      original = text;
+	      text = i;
+	    }
+
 	    data.hasClass = !!(value.newClass || value.oldClass);
 	    data.newClass = value.newClass;
 	    data.oldClass = value.oldClass;
-	    splitByChars = delim === "";
-	    data.textHasEmoji = splitByChars && !!data.text.emoji;
-	    data.charsHaveEmoji = !!value.chars && !!emojiSafeSplit(value.chars).emoji;
-	    data.length = splitByChars ? data.original.length : data.original.join(delim).length;
-	    data.lengthDif = (splitByChars ? data.text.length : data.text.join(delim).length) - data.length;
-	    data.fillChar = value.fillChar || value.chars && ~value.chars.indexOf(" ") ? "&nbsp;" : "";
-	    data.charSet = charset = _charsLookup[value.chars || "upperCase"] || new CharSet(value.chars);
-	    data.speed = 0.05 / (value.speed || 1);
-	    data.prevScrambleTime = 0;
-	    data.setIndex = Math.random() * 20 | 0;
-	    maxLength = data.length + Math.max(data.lengthDif, 0);
+	    i = original.length - text.length;
+	    _short = i < 0 ? original : text;
+	    data.fillChar = value.fillChar || (value.padSpace ? "&nbsp;" : "");
 
-	    if (maxLength > charset.length) {
-	      charset.grow(maxLength);
+	    if (i < 0) {
+	      i = -i;
 	    }
 
-	    data.chars = charset.sets[data.setIndex];
-	    data.revealDelay = value.revealDelay || 0;
-	    data.tweenLength = value.tweenLength !== false;
-	    data.tween = tween;
-	    data.rightToLeft = !!value.rightToLeft;
+	    while (--i > -1) {
+	      _short.push(data.fillChar);
+	    }
 
-	    data._props.push("scrambleText", "text");
+	    if (value.type === "diff") {
+	      j = 0;
+	      condensedText = [];
+	      condensedOriginal = [];
+	      aggregate = "";
 
-	    return _bonusValidated;
-	  },
-	  render: function render(ratio, data) {
-	    var target = data.target,
-	        prop = data.prop,
-	        text = data.text,
-	        delimiter = data.delimiter,
-	        tween = data.tween,
-	        prevScrambleTime = data.prevScrambleTime,
-	        revealDelay = data.revealDelay,
-	        setIndex = data.setIndex,
-	        chars = data.chars,
-	        charSet = data.charSet,
-	        length = data.length,
-	        textHasEmoji = data.textHasEmoji,
-	        charsHaveEmoji = data.charsHaveEmoji,
-	        lengthDif = data.lengthDif,
-	        tweenLength = data.tweenLength,
-	        oldClass = data.oldClass,
-	        newClass = data.newClass,
-	        rightToLeft = data.rightToLeft,
-	        fillChar = data.fillChar,
-	        speed = data.speed,
-	        original = data.original,
-	        hasClass = data.hasClass,
-	        l = text.length,
-	        time = tween._time,
-	        timeDif = time - prevScrambleTime,
-	        i,
-	        i2,
-	        startText,
-	        endText,
-	        applyNew,
-	        applyOld,
-	        str,
-	        startClass,
-	        endClass;
+	      for (i = 0; i < text.length; i++) {
+	        s = text[i];
 
-	    if (revealDelay) {
-	      if (tween._from) {
-	        time = tween._dur - time;
+	        if (s === original[i]) {
+	          aggregate += s;
+	        } else {
+	          condensedText[j] = aggregate + s;
+	          condensedOriginal[j++] = aggregate + original[i];
+	          aggregate = "";
+	        }
 	      }
 
-	      ratio = time === 0 ? 0 : time < revealDelay ? 0.000001 : time === tween._dur ? 1 : tween._ease((time - revealDelay) / (tween._dur - revealDelay));
+	      text = condensedText;
+	      original = condensedOriginal;
+
+	      if (aggregate) {
+	        text.push(aggregate);
+	        original.push(aggregate);
+	      }
 	    }
 
-	    if (ratio < 0) {
-	      ratio = 0;
-	    } else if (ratio > 1) {
+	    if (value.speed) {
+	      tween.duration(Math.min(0.05 / value.speed * _short.length, value.maxDuration || 9999));
+	    }
+
+	    this.original = original;
+	    this.text = text;
+
+	    this._props.push("text");
+	  },
+	  render: function render(ratio, data) {
+	    if (ratio > 1) {
 	      ratio = 1;
+	    } else if (ratio < 0) {
+	      ratio = 0;
 	    }
 
-	    if (rightToLeft) {
+	    if (data.from) {
 	      ratio = 1 - ratio;
 	    }
 
-	    i = ~~(ratio * l + 0.5);
-
-	    if (ratio) {
-	      if (timeDif > speed || timeDif < -speed) {
-	        data.setIndex = setIndex = (setIndex + (Math.random() * 19 | 0)) % 20;
-	        data.chars = charSet.sets[setIndex];
-	        data.prevScrambleTime += timeDif;
-	      }
-
-	      endText = chars;
-	    } else {
-	      endText = original.join(delimiter);
-	    }
-
-	    if (rightToLeft) {
-	      if (ratio === 1 && (tween._from || tween.data === "isFromStart")) {
-	        startText = "";
-	        endText = original.join(delimiter);
-	      } else {
-	        str = text.slice(i).join(delimiter);
-
-	        if (charsHaveEmoji) {
-	          startText = emojiSafeSplit(endText).slice(0, length + (tweenLength ? 1 - ratio * ratio * ratio : 1) * lengthDif - (textHasEmoji ? emojiSafeSplit(str) : str).length + 0.5 | 0).join("");
-	        } else {
-	          startText = endText.substr(0, length + (tweenLength ? 1 - ratio * ratio * ratio : 1) * lengthDif - (textHasEmoji ? emojiSafeSplit(str) : str).length + 0.5 | 0);
-	        }
-
-	        endText = str;
-	      }
-	    } else {
-	      startText = text.slice(0, i).join(delimiter);
-	      i2 = (textHasEmoji ? emojiSafeSplit(startText) : startText).length;
-
-	      if (charsHaveEmoji) {
-	        endText = emojiSafeSplit(endText).slice(i2, length + (tweenLength ? 1 - (ratio = 1 - ratio) * ratio * ratio * ratio : 1) * lengthDif + 0.5 | 0).join("");
-	      } else {
-	        endText = endText.substr(i2, length + (tweenLength ? 1 - (ratio = 1 - ratio) * ratio * ratio * ratio : 1) * lengthDif - i2 + 0.5 | 0);
-	      }
-	    }
+	    var text = data.text,
+	        hasClass = data.hasClass,
+	        newClass = data.newClass,
+	        oldClass = data.oldClass,
+	        delimiter = data.delimiter,
+	        target = data.target,
+	        fillChar = data.fillChar,
+	        original = data.original,
+	        l = text.length,
+	        i = ratio * l + 0.5 | 0,
+	        applyNew,
+	        applyOld,
+	        str;
 
 	    if (hasClass) {
-	      startClass = rightToLeft ? oldClass : newClass;
-	      endClass = rightToLeft ? newClass : oldClass;
-	      applyNew = startClass && i !== 0;
-	      applyOld = endClass && i !== l;
-	      str = (applyNew ? "<span class='" + startClass + "'>" : "") + startText + (applyNew ? "</span>" : "") + (applyOld ? "<span class='" + endClass + "'>" : "") + delimiter + endText + (applyOld ? "</span>" : "");
+	      applyNew = newClass && i;
+	      applyOld = oldClass && i !== l;
+	      str = (applyNew ? "<span class='" + newClass + "'>" : "") + text.slice(0, i).join(delimiter) + (applyNew ? "</span>" : "") + (applyOld ? "<span class='" + oldClass + "'>" : "") + delimiter + original.slice(i).join(delimiter) + (applyOld ? "</span>" : "");
 	    } else {
-	      str = startText + delimiter + endText;
+	      str = text.slice(0, i).join(delimiter) + delimiter + original.slice(i).join(delimiter);
 	    }
 
-	    target[prop] = fillChar === "&nbsp;" && ~str.indexOf("  ") ? str.split("  ").join("&nbsp;&nbsp;") : str;
+	    if (data.svg) {
+	      target.textContent = str;
+	    } else {
+	      target.innerHTML = fillChar === "&nbsp;" && ~str.indexOf("  ") ? str.split("  ").join("&nbsp;&nbsp;") : str;
+	    }
 	  }
 	};
-	ScrambleTextPlugin.emojiSafeSplit = emojiSafeSplit;
-	ScrambleTextPlugin.getText = getText;
-	_getGSAP() && gsap.registerPlugin(ScrambleTextPlugin);
+	TextPlugin.splitInnerHTML = splitInnerHTML;
+	TextPlugin.emojiSafeSplit = emojiSafeSplit;
+	TextPlugin.getText = getText;
+	_getGSAP() && gsap.registerPlugin(TextPlugin);
 
-	exports.ScrambleTextPlugin = ScrambleTextPlugin;
-	exports.default = ScrambleTextPlugin;
+	exports.TextPlugin = TextPlugin;
+	exports.default = TextPlugin;
 
 	Object.defineProperty(exports, '__esModule', { value: true });
 

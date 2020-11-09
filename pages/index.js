@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css'
 
 import MainScene from '../components/MainScene'
 import HamburgerMenu from '../components/HamburgerMenu'
+import WaveText from '../components/WaveText'
 
 const CursorCircle = dynamic(() => import('../components/CursorCircle'), {
   ssr: false,
@@ -22,6 +23,7 @@ export default function Home() {
       <HamburgerMenu />
       <main className={`${styles.main} flex flex-grow flex-col`}>
         <MainScene />
+        <WaveText />
       </main>
 
       <footer

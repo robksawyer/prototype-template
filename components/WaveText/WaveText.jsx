@@ -4,19 +4,19 @@
  */
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import gsap from 'gsap'
 import { easeBackOut } from 'd3-ease'
 import {
+  gsap,
   CSSPlugin,
   TweenLite,
   TweenMax,
   MotionPathPlugin,
   Draggable,
   TextPlugin,
-  ScrollTrigger,
-} from 'gsap/all'
+} from 'gsap'
 
-import SplitText from '../../gsap-bonus/umd/SplitText'
+import { ScrollTrigger } from '../../gsap-bonus/ScrollTrigger'
+import { SplitText } from '../../gsap-bonus/SplitText'
 
 import styles from './WaveText.module.css'
 
@@ -26,8 +26,8 @@ const WaveText = (props) => {
   useEffect(() => {
     // don't forget to register plugins
     gsap.registerPlugin(
-      SplitText,
-      ScrollTrigger
+      ScrollTrigger,
+      SplitText
       // TextPlugin,
       // Draggable,
       // MotionPathPlugin
@@ -46,7 +46,6 @@ const WaveText = (props) => {
     })
     //an array of all the divs that wrap each character
     const chars = split.chars
-    console.log('chars', chars)
 
     gsap.set('#main-text-0', { perspective: 400 })
     const alts = [
