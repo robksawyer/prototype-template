@@ -23,7 +23,7 @@ export default function Home() {
       <HamburgerMenu />
       <main className={`${styles.main} flex flex-grow flex-col`}>
         <MainScene />
-        <WaveText />
+        {/* <WaveText className="absolute bottom-0 flex items-center justify-center w-screen h-screen pointer-events-none select-none" /> */}
       </main>
 
       <footer

@@ -79,7 +79,10 @@ const WaveText = (props) => {
         styles[`wave_text__${variant}`]
       } ${className}`}
     >
-      <p id="main-text-0" className="text-2xl trigger">
+      <p
+        id="main-text-0"
+        className="w-3/4 text-2xl pointer-events-none select-none trigger"
+      >
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut odio
         massa. Quisque id erat efficitur, tincidunt libero vitae, mattis sapien.
         Fusce ac orci nisi.
