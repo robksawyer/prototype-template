@@ -130,7 +130,6 @@ module.exports = {
     },
     extend: {
       colors: {
-        transparent: 'transparent',
         primary: 'var(--color-primary)',
         secondary: 'var(--color-secondary)',
         // https://coolors.co/011627-fdfffc-2ec4b6-e71d36-ff9f1c
