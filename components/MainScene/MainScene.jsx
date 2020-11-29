@@ -87,13 +87,18 @@ const Scene = () => {
   // )
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, mouse }) => {
     mesh.current.rotation.x = (Math.sin(clock.elapsedTime) * Math.PI) / 4
     mesh.current.rotation.y = (Math.sin(clock.elapsedTime) * Math.PI) / 4
     mesh.current.rotation.z = (Math.sin(clock.elapsedTime) * Math.PI) / 4
     mesh.current.position.x = Math.sin(clock.elapsedTime)
     mesh.current.position.z = Math.sin(clock.elapsedTime)
     group.current.rotation.y += 0.02
+
+    mesh.current.material.uniforms.mouse.value = new THREE.Vector2(
+      mouse.x,
+      mouse.y
+    )
   })
 
   useEffect(() => void (spotLight.current.target = mesh.current), [scene])
@@ -175,7 +180,7 @@ const MainScene = (props) => {
         style={{
           width: '100vw',
           height: 'calc(100vh - 50px)',
-          background: 'floralwhite',
+          background: 'blue',
         }}
         onCreated={({ gl }) => {
           gl.physicallyCorrectLights = true
