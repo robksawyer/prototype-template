@@ -71,6 +71,8 @@ extend({ DefaultMaterial })
 //   return <EffectComposer></EffectComposer>
 // }
 
+const ENABLE_HELPERS = 0
+
 const Scene = () => {
   const mesh = useRef()
   const { scene } = useThree()
@@ -92,11 +94,13 @@ const Scene = () => {
   })
 
   useEffect(() => void (spotLight.current.target = mesh.current), [scene])
-  useHelper(spotLight, THREE.SpotLightHelper, 'teal')
-  useHelper(pointLight, THREE.PointLightHelper, 0.5, 'hotpink')
-  useHelper(mesh, THREE.BoxHelper, '#272740')
-  useHelper(mesh, VertexNormalsHelper, 1, '#272740')
-  // useHelper(mesh, FaceNormalsHelper, 0.5, '#272740')
+  if (ENABLE_HELPERS) {
+    useHelper(spotLight, THREE.SpotLightHelper, 'teal')
+    useHelper(pointLight, THREE.PointLightHelper, 0.5, 'hotpink')
+    useHelper(mesh, THREE.BoxHelper, '#272740')
+    useHelper(mesh, VertexNormalsHelper, 1, '#272740')
+    // useHelper(mesh, FaceNormalsHelper, 0.5, '#272740')
+  }
 
   return (
     <>
@@ -117,18 +121,18 @@ const Scene = () => {
         distance={20}
       />
       <mesh ref={mesh} position={[0, 2, 0]} castShadow>
-        <boxGeometry attach="geometry" />
+        <icosahedronGeometry attach="geometry" args={[1, 1]} />
         {/* Shader Material Example */}
         <defaultMaterial
           attach="material"
-          // extensions={{
-          //   derivatives: '#extension GL_OES_standard_derivatives: enable',
-          // }}
+          extensions={{
+            derivatives: '#extension GL_OES_standard_derivatives: enable',
+          }}
           side={THREE.DoubleSide}
-          time={0}
+          // time={0}
           texture={texture}
-          resolution={new THREE.Vector4(window.width, window.height, 1, 1)}
-          uvRate1={new THREE.Vector2(1, 1)}
+          // resolution={new THREE.Vector4()}
+          // uvRate1={new THREE.Vector2(1, 1)}
         />
 
         {/* Standard Color Material Example */}
