@@ -5,11 +5,17 @@ import React, { useRef, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { useTweaks } from 'use-tweaks'
-import { extend, useFrame } from 'react-three-fiber'
-import { MathUtils, Color } from 'three'
+import {
+  extend,
+  // useFrame
+} from 'react-three-fiber'
+import {
+  // MathUtils,
+  Color,
+} from 'three'
 import { useSubdivision, shaderMaterial } from '@react-three/drei'
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
-import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper'
+// import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper'
 
 import styles from './ShaderGeometry.module.css'
 

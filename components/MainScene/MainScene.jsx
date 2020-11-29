@@ -5,40 +5,39 @@ import React, { Suspense, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import useErrorBoundary from 'use-error-boundary'
 
-import { useTweaks } from 'use-tweaks'
-import { useInView } from 'react-intersection-observer'
-import useMobileDetect from 'use-mobile-detect-hook'
+// import { useTweaks } from 'use-tweaks'
+// import { useInView } from 'react-intersection-observer'
+// import useMobileDetect from 'use-mobile-detect-hook'
 import {
   extend,
   Canvas,
   useFrame,
   useThree,
-  useLoader,
+  // useLoader,
 } from 'react-three-fiber'
-import {
-  EffectComposer,
-  Bloom,
-  ChromaticAberration,
-} from '@react-three/postprocessing'
-import {
-  MathUtils,
-  PlaneBufferGeometry,
-  TextureLoader,
-  RepeatWrapping,
-  Vector3,
-  BoxHelper,
-  SpotLightHelper,
-  PointLightHelper,
-} from 'three'
-import { useHelper, OrbitControls } from '@react-three/drei'
+
+// Enabled for effects
+// import {
+//   EffectComposer,
+//   // Bloom,
+//   // ChromaticAberration,
+// } from '@react-three/postprocessing'
+
+import * as THREE from 'three'
+import { useHelper, Html, useTexture, OrbitControls } from '@react-three/drei'
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper'
-import { FaceNormalsHelper } from 'three/examples/jsm/helpers/FaceNormalsHelper'
-import { gsap } from 'gsap'
+// import { FaceNormalsHelper } from 'three/examples/jsm/helpers/FaceNormalsHelper'
+// import { gsap } from 'gsap'
 
 import styles from './MainScene.module.css'
 
 import Loader from '../Loader'
+
+// Shader stack
+import { DefaultMaterial } from './shaders/defaultMaterial'
+
+extend({ DefaultMaterial })
 
 // Texture loading examples
 // const envMap = useCubeTexture(
@@ -67,10 +66,10 @@ import Loader from '../Loader'
 //    color="#3083DC"
 //  />
 
-// Effects for the main scene
-const Effects = () => {
-  return <EffectComposer></EffectComposer>
-}
+// Enable for effects in the main scene
+// const Effects = () => {
+//   return <EffectComposer></EffectComposer>
+// }
 
 const Scene = () => {
   const mesh = useRef()
@@ -79,6 +78,9 @@ const Scene = () => {
 
   const spotLight = useRef()
   const pointLight = useRef()
+
+  // Texture loading example
+  const texture = useTexture('/3d/textures/checkerboard.jpg')
 
   useFrame(({ clock }) => {
     mesh.current.rotation.x = (Math.sin(clock.elapsedTime) * Math.PI) / 4
@@ -90,11 +92,11 @@ const Scene = () => {
   })
 
   useEffect(() => void (spotLight.current.target = mesh.current), [scene])
-  useHelper(spotLight, SpotLightHelper, 'teal')
-  useHelper(pointLight, PointLightHelper, 0.5, 'hotpink')
-  useHelper(mesh, BoxHelper, '#272740')
+  useHelper(spotLight, THREE.SpotLightHelper, 'teal')
+  useHelper(pointLight, THREE.PointLightHelper, 0.5, 'hotpink')
+  useHelper(mesh, THREE.BoxHelper, '#272740')
   useHelper(mesh, VertexNormalsHelper, 1, '#272740')
-  useHelper(mesh, FaceNormalsHelper, 0.5, '#272740')
+  // useHelper(mesh, FaceNormalsHelper, 0.5, '#272740')
 
   return (
     <>
@@ -116,7 +118,24 @@ const Scene = () => {
       />
       <mesh ref={mesh} position={[0, 2, 0]} castShadow>
         <boxGeometry attach="geometry" />
-        <meshStandardMaterial attach="material" color="lightblue" />
+        {/* Shader Material Example */}
+        <defaultMaterial
+          attach="material"
+          // extensions={{
+          //   derivatives: '#extension GL_OES_standard_derivatives: enable',
+          // }}
+          side={THREE.DoubleSide}
+          time={0}
+          texture={texture}
+          resolution={new THREE.Vector4(window.width, window.height, 1, 1)}
+          uvRate1={new THREE.Vector2(1, 1)}
+        />
+
+        {/* Standard Color Material Example */}
+        {/* <meshStandardMaterial attach="material" color="lightblue" /> */}
+
+        {/* Texture Material Example */}
+        {/* <meshBasicMaterial attach="material" map={texture} /> */}
       </mesh>
       <mesh rotation-x={-Math.PI / 2} receiveShadow>
         <planeBufferGeometry args={[100, 100]} attach="geometry" />
@@ -134,7 +153,9 @@ const MainScene = (props) => {
 
   return (
     <ErrorBoundary>
-      <Tag
+      {/* https://github.com/pmndrs/react-three-fiber/blob/master/markdown/api.md#canvas */}
+      <Canvas
+        pixelRatio={window.devicePixelRatio || 1}
         colorManagement
         shadowMap
         camera={{ position: [-5, 5, 5] }}
@@ -146,27 +167,38 @@ const MainScene = (props) => {
           height: 'calc(100vh - 50px)',
           background: 'floralwhite',
         }}
+        onCreated={({ gl }) => {
+          gl.physicallyCorrectLights = true
+          // gl.toneMapping = THREE.ACESFilmicToneMapping
+          gl.outputEncoding = THREE.sRGBEncoding
+        }}
       >
         <fog attach="fog" args={['floralwhite', 0, 20]} />
-        <Suspense fallback={<Loader />}>
+        <Suspense
+          fallback={
+            <Html center>
+              <Loader />
+            </Html>
+          }
+        >
           <Scene />
         </Suspense>
 
         {/* <Effects /> */}
         <OrbitControls />
-      </Tag>
+      </Canvas>
     </ErrorBoundary>
   )
 }
 
 MainScene.propTypes = {
-  tagName: PropTypes.object,
+  // tagName: PropTypes.object,
   className: PropTypes.string,
   variant: PropTypes.oneOf(['default']),
 }
 
 MainScene.defaultProps = {
-  tagName: Canvas,
+  // tagName: Canvas,
   className: '',
   variant: 'default',
 }

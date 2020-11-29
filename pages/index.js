@@ -3,7 +3,9 @@ import Head from 'next/head'
 import dynamic from 'next/dynamic'
 import styles from '../styles/Home.module.css'
 
-import MainScene from '../components/MainScene'
+const MainScene = dynamic(() => import('../components/MainScene'), {
+  ssr: false,
+})
 import HamburgerMenu from '../components/HamburgerMenu'
 import WaveText from '../components/WaveText'
 
