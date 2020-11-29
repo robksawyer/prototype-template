@@ -13,7 +13,7 @@ import {
   Canvas,
   useFrame,
   useThree,
-  // useLoader,
+  useLoader,
 } from 'react-three-fiber'
 
 // Enabled for effects
@@ -35,9 +35,7 @@ import styles from './MainScene.module.css'
 import Loader from '../Loader'
 
 // Shader stack
-import { DefaultMaterial } from './shaders/defaultMaterial'
-
-extend({ DefaultMaterial })
+import './shaders/defaultMaterial'
 
 // Texture loading examples
 // const envMap = useCubeTexture(
@@ -83,6 +81,11 @@ const Scene = () => {
 
   // Texture loading example
   const texture = useTexture('/3d/textures/checkerboard.jpg')
+  // const texture = useLoader(
+  //   THREE.TextureLoader,
+  //   '/3d/textures/checkerboard.jpg'
+  // )
+  texture.wrapS = texture.wrapT = THREE.RepeatWrapping
 
   useFrame(({ clock }) => {
     mesh.current.rotation.x = (Math.sin(clock.elapsedTime) * Math.PI) / 4
@@ -125,12 +128,15 @@ const Scene = () => {
         {/* Shader Material Example */}
         <defaultMaterial
           attach="material"
-          extensions={{
-            derivatives: '#extension GL_OES_standard_derivatives: enable',
-          }}
           side={THREE.DoubleSide}
           // time={0}
-          texture={texture}
+          // texture={new THREE.TextureLoader().load(
+          //   '/3d/textures/checkerboard.jpg',
+          //   (texture) => {
+          //     texture.wrapS = texture.wrapT = THREE.RepeatWrapping
+          //   }
+          // )}
+          landscape={texture}
           // resolution={new THREE.Vector4()}
           // uvRate1={new THREE.Vector2(1, 1)}
         />
