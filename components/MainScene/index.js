@@ -1,2 +1,2 @@
-import MainScene from './MainScene.jsx';
-export default MainScene;
+import MainScene from './MainScene.jsx'
+export default MainScene
