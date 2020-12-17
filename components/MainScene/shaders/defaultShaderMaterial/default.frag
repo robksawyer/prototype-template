@@ -1,7 +1,10 @@
 // Default Shader
 // Rob Sawyer
 // @see https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram
-#define GLSLIFY 1
+precision highp float;
+precision highp int;
+#define HIGH_PRECISION
+// #define GLSLIFY 1
 
 // ThreeJS defaults
 // uniform mat4 viewMatrix;
