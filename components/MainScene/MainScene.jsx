@@ -35,7 +35,7 @@ import styles from './MainScene.module.css'
 import Loader from '../Loader'
 
 // Shader stack
-import './shaders/defaultMaterial'
+import './shaders/defaultShaderMaterial'
 
 // Texture loading examples
 // const envMap = useCubeTexture(
@@ -131,7 +131,7 @@ const Scene = () => {
       <mesh ref={mesh} position={[0, 2, 0]} castShadow>
         <icosahedronGeometry attach="geometry" args={[1, 1]} />
         {/* Shader Material Example */}
-        <defaultMaterial
+        <defaultShaderMaterial
           attach="material"
           side={THREE.DoubleSide}
           // time={0}
