@@ -1,10 +1,6 @@
 // Basic Shader
 // Rob Sawyer
 // @see https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram
-precision highp float;
-precision highp int;
-#define HIGH_PRECISION
-// #define GLSLIFY 1
 
 // object.matrixWorld
 // uniform mat4 modelMatrix;
