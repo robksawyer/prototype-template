@@ -24,7 +24,13 @@ import {
 // } from '@react-three/postprocessing'
 
 import * as THREE from 'three'
-import { useHelper, Html, useTexture, OrbitControls } from '@react-three/drei'
+import {
+  useHelper,
+  Html,
+  useTexture,
+  OrbitControls,
+  Stats,
+} from '@react-three/drei'
 // import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
 import { VertexNormalsHelper } from 'three/examples/jsm/helpers/VertexNormalsHelper'
 // import { FaceNormalsHelper } from 'three/examples/jsm/helpers/FaceNormalsHelper'
@@ -157,6 +163,21 @@ const Scene = () => {
         <shadowMaterial attach="material" opacity={0.5} />
       </mesh>
       <gridHelper args={[30, 30, 30]} />
+      <Stats
+        showPanel={0} // Start-up panel (default=0)
+        className="" // Optional className to add to the stats container dom element
+        // {...props} // All stats.js (https://github.com/mrdoob/stats.js/) props are valid
+      />
+      <Stats
+        showPanel={1} // Start-up panel (default=0)
+        className="ml-80" // Optional className to add to the stats container dom element
+        // {...props} // All stats.js (https://github.com/mrdoob/stats.js/) props are valid
+      />
+      <Stats
+        showPanel={2} // Start-up panel (default=0)
+        className="ml-160" // Optional className to add to the stats container dom element
+        // {...props} // All stats.js (https://github.com/mrdoob/stats.js/) props are valid
+      />
     </>
   )
 }
