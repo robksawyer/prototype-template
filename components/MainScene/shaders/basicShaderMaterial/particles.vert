@@ -29,18 +29,16 @@ precision highp int;
 // attribute vec3 normal;
 // attribute vec2 uv;
 
-uniform float time; 
-uniform vec2 mouse;
+uniform float time;
 varying vec2 vUv;
 varying vec3 vPosition;
-varying vec2 pixels;
-varying vec3 vNormal;
+uniform sampler2D texture1;
 
-float PI = 3.14159265358979323846264338;
+float PI = 3.141592653589793238;
 
 void main() {
-    vUv = uv;
-    // vNormal = normalize(normalMatrix * normal);
-    //  calculate the position of a vertex in the vertex shader
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  vUv = uv;
+  vec4 mvPosition = modelViewMatrix * vec4( position, 1. );
+  gl_PointSize = 1000. * ( 1. / - mvPosition.z );
+  gl_Position = projectionMatrix * mvPosition;
 }
