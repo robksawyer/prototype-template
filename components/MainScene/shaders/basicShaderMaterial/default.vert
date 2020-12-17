@@ -1,4 +1,4 @@
-// Default Shader
+// Basic Shader
 // Rob Sawyer
 // @see https://threejs.org/docs/#api/en/renderers/webgl/WebGLProgram
 precision highp float;
