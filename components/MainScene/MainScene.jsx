@@ -35,7 +35,7 @@ import styles from './MainScene.module.css'
 import Loader from '../Loader'
 
 // Shader stack
-import './shaders/basicShaderMaterial'
+import '../../public/3d/shaders/basicShaderMaterial'
 
 // Texture loading examples
 // const envMap = useCubeTexture(

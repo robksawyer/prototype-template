@@ -33,7 +33,7 @@ const BasicShaderMaterial = shaderMaterial(
     resolution: new THREE.Vector4(),
     texture1: null,
     mouse: new THREE.Vector2(),
-    // landscape: new THREE.TextureLoader(
+    // texture1: new THREE.TextureLoader(
     //   '/3d/textures/checkerboard.jpg',
     //   (texture) => {
     //     console.log('texture', texture)
@@ -46,7 +46,6 @@ const BasicShaderMaterial = shaderMaterial(
   // fragment shader
   fragment,
   (material) => {
-    console.log('material', material)
     material.side = THREE.DoubleSide
     // material.wireframe = false
     // material.vertexColors = true
