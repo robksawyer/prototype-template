@@ -28,7 +28,7 @@ import fragment from './default.frag'
  */
 const DefaultShaderMaterial = shaderMaterial(
   {
-    time: 0,
+    time: 0.0,
     resolution: new THREE.Vector4(),
     texture1: null,
     mouse: new THREE.Vector2(),
