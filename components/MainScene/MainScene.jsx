@@ -147,7 +147,7 @@ const Scene = () => {
           //     texture.wrapS = texture.wrapT = THREE.RepeatWrapping
           //   }
           // )}
-          texture1={texture}
+          // texture1={texture}
           // resolution={new THREE.Vector4()}
           // uvRate1={new THREE.Vector2(1, 1)}
         />
