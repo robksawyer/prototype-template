@@ -24,12 +24,15 @@
 // attribute vec3 position;
 // attribute vec3 normal;
 // attribute vec2 uv;
+
 #ifdef GL_ES
 precision mediump float;
 #endif
 
-uniform float time; 
-uniform vec2 mouse;
+uniform float iTime; 
+uniform vec2 iResolution;
+uniform vec2 iMouse;
+
 varying vec2 vUv;
 varying vec3 vPosition;
 varying vec2 pixels;

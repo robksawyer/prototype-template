@@ -79,7 +79,7 @@ const ENABLE_HELPERS = 0
 
 const Scene = () => {
   const mesh = useRef()
-  const { scene } = useThree()
+  const { scene, size } = useThree()
   const group = useRef()
 
   const spotLight = useRef()
@@ -93,7 +93,7 @@ const Scene = () => {
   // )
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping
 
-  useFrame(({ clock, mouse }) => {
+  useFrame(({ clock, mouse, size }) => {
     mesh.current.rotation.x = (Math.sin(clock.elapsedTime) * Math.PI) / 4
     mesh.current.rotation.y = (Math.sin(clock.elapsedTime) * Math.PI) / 4
     mesh.current.rotation.z = (Math.sin(clock.elapsedTime) * Math.PI) / 4
@@ -101,7 +101,8 @@ const Scene = () => {
     mesh.current.position.z = Math.sin(clock.elapsedTime)
     group.current.rotation.y += 0.02
 
-    mesh.current.material.uniforms.mouse.value = new THREE.Vector2(
+    mesh.current.material.uniforms.iTime.value = clock.getElapsedTime()
+    mesh.current.material.uniforms.iMouse.value = new THREE.Vector2(
       mouse.x,
       mouse.y
     )
@@ -135,11 +136,10 @@ const Scene = () => {
         distance={20}
       />
       <mesh ref={mesh} position={[0, 2, 0]} castShadow>
-        <icosahedronGeometry attach="geometry" args={[1, 1]} />
+        <boxBufferGeometry attach="geometry" args={[1, 1]} />
         {/* Shader Material Example */}
         <defaultShaderMaterial
           attach="material"
-          side={THREE.DoubleSide}
           // time={0}
           // texture={new THREE.TextureLoader().load(
           //   '/3d/textures/checkerboard.jpg',
@@ -148,7 +148,7 @@ const Scene = () => {
           //   }
           // )}
           // texture1={texture}
-          // resolution={new THREE.Vector4()}
+          iResolution={new THREE.Vector2(size.width, size.height)}
           // uvRate1={new THREE.Vector2(1, 1)}
         />
 

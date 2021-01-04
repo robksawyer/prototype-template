@@ -21,6 +21,7 @@ import { shaderMaterial } from '@react-three/drei'
 import vertex from './default.vert'
 // import vertex from './particles.vert'
 import fragment from './default.frag'
+import { Vector2 } from 'three'
 
 /**
  * DefaultShaderMaterial
@@ -28,10 +29,10 @@ import fragment from './default.frag'
  */
 const DefaultShaderMaterial = shaderMaterial(
   {
-    time: 0.0,
-    resolution: new THREE.Vector4(),
+    iTime: 0.0,
+    iResolution: new THREE.Vector2(),
+    iMouse: new THREE.Vector2(0.0, 0.0),
     texture1: null,
-    mouse: new THREE.Vector2(),
     // texture1: new THREE.TextureLoader(
     //   '/3d/textures/checkerboard.jpg',
     //   (texture) => {
