@@ -36,7 +36,6 @@
     "use-tweaks": "^0.1.0"
   },
   "devDependencies": {
-    "@layerframers/scaffolding-nextjs": "^1.1.6",
     "autoprefixer": "^10.0.1",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
@@ -65,6 +64,7 @@
     "postcss-preset-env": "^6.7.0",
     "postcss-selector-not": "^4.0.0",
     "prettier": "^2.2.1",
-    "raw-loader": "^4.0.2"
+    "raw-loader": "^4.0.2",
+    "scaffolding-nextjs": "^2.0.4"
   }
 }
