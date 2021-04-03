@@ -14,7 +14,7 @@ import {
   useFrame,
   useThree,
   useLoader,
-} from 'react-three-fiber'
+} from '@react-three/fiber'
 
 // Enabled for effects
 // import {
